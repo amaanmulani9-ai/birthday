@@ -159,6 +159,7 @@ html, body {
   display: flex;
   align-items: center;
   gap: 12px;
+  position: relative;
 }
 
 /* Universal Buttons */
@@ -242,6 +243,91 @@ html, body {
 @keyframes meterJump {
   0% { height: 4px; }
   100% { height: 18px; }
+}
+
+/* Music Dropdown Arrow */
+.music-dropdown-arrow {
+  font-size: 0.75rem;
+  margin-left: 2px;
+  transition: transform 0.25s ease;
+}
+
+.music-dropdown-arrow.open {
+  transform: rotate(180deg);
+}
+
+/* Music Selection Dropdown Panel */
+.music-dropdown-panel {
+  position: absolute;
+  top: 52px;
+  right: 0;
+  width: 280px;
+  background: rgba(17, 19, 38, 0.97);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 14px;
+  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 209, 102, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 200;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-8px) scale(0.96);
+  transition: opacity 0.25s ease, transform 0.25s var(--ease-cinematic);
+}
+
+.music-dropdown-panel.panel-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
+}
+
+.music-dropdown-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--gold-glow);
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.music-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--text-soft);
+  transition: background 0.2s ease, border-color 0.2s ease;
+  border: 1px solid transparent;
+  margin-bottom: 4px;
+}
+
+.music-option:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.music-option.active {
+  background: rgba(255, 209, 102, 0.15);
+  border-color: var(--gold-glow);
+  color: #fff;
+  font-weight: 700;
+}
+
+.music-opt-icon {
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.music-custom-status {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  padding: 6px 12px;
+  border-top: 1px solid var(--glass-border);
+  margin-top: 6px;
 }
 
 /* ==========================================================================
@@ -1085,32 +1171,158 @@ html, body {
   height: 100%;
 }
 
-/* Box 1: Amethyst & Royal Gold */
-.box-amethyst .gift-lid-3d { background: linear-gradient(135deg, #a855f7, #7e22ce); }
-.box-amethyst .gift-body-3d { background: linear-gradient(135deg, #7e22ce, #3b0764); }
-.box-amethyst .gift-ribbon-bow,
-.box-amethyst .gift-ribbon-cross { background: var(--gold-gradient); }
-.box-amethyst.box-unwrapped .gift-lid-3d {
+/* House Crest Medallion Seal on Gift Box Ribbon */
+.house-crest-badge {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+  z-index: 12;
+  pointer-events: none;
+  animation: crestShimmer 3s ease-in-out infinite;
+}
+
+.gift-house-symbol {
+  position: absolute;
+  bottom: 10px;
+  right: 12px;
+  font-size: 2rem;
+  opacity: 0.16;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.gift-3d-box:hover .gift-house-symbol {
+  opacity: 0.35;
+  transform: scale(1.1);
+}
+
+@keyframes crestShimmer {
+  0%, 100% { filter: drop-shadow(0 0 4px rgba(255, 215, 0, 0.35)); transform: translate(-50%, -50%) scale(1); }
+  50% { filter: drop-shadow(0 0 12px rgba(255, 215, 0, 0.85)); transform: translate(-50%, -50%) scale(1.08); }
+}
+
+/* ==========================================================================
+   HOGWARTS HOUSES: GRYFFINDOR, SLYTHERIN, HUFFLEPUFF (AND FESTIVE DEFAULTS)
+   ========================================================================== */
+
+/* 1. GRYFFINDOR HOUSE BOX (Scarlet Red & Polished Gold) */
+.box-gryffindor .gift-lid-3d,
+.theme-potter .box-amethyst .gift-lid-3d {
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 35%, #991b1b 75%, #7f1d1d 100%);
+  border: 1.5px solid rgba(251, 191, 36, 0.55);
+}
+.box-gryffindor .gift-body-3d,
+.theme-potter .box-amethyst .gift-body-3d {
+  background: linear-gradient(135deg, #b91c1c 0%, #7f1d1d 55%, #450a0a 100%);
+  border: 1.5px solid rgba(251, 191, 36, 0.4);
+  box-shadow: 0 16px 36px rgba(185, 28, 28, 0.45);
+}
+.box-gryffindor .gift-ribbon-bow,
+.box-gryffindor .gift-ribbon-cross,
+.theme-potter .box-amethyst .gift-ribbon-bow,
+.theme-potter .box-amethyst .gift-ribbon-cross {
+  background: linear-gradient(135deg, #ffffff 0%, #fde047 30%, #f59e0b 70%, #d97706 100%);
+  box-shadow: inset 0 0 6px rgba(254, 240, 138, 0.7);
+}
+.box-gryffindor .crest-gryffindor,
+.theme-potter .box-amethyst .house-crest-badge {
+  background: radial-gradient(circle at 35% 30%, #fef08a, #d97706);
+  border: 2px solid #fbbf24;
+  color: #7f1d1d;
+}
+.box-gryffindor.box-unwrapped .gift-lid-3d,
+.theme-potter .box-amethyst.box-unwrapped .gift-lid-3d {
   transform: rotate(-65deg) translate(-35px, -45px);
 }
 
-/* Box 2: Ruby Crimson & Rose Silk */
-.box-ruby .gift-lid-3d { background: linear-gradient(135deg, #fb7185, #e11d48); }
-.box-ruby .gift-body-3d { background: linear-gradient(135deg, #be123c, #4c0519); }
-.box-ruby .gift-ribbon-bow,
-.box-ruby .gift-ribbon-cross { background: linear-gradient(135deg, #ffe4e6, #f43f5e); }
-.box-ruby.box-unwrapped .gift-lid-3d {
+/* 2. SLYTHERIN HOUSE BOX (Emerald Green & Sterling Silver) */
+.box-slytherin .gift-lid-3d,
+.theme-potter .box-ruby .gift-lid-3d {
+  background: linear-gradient(135deg, #10b981 0%, #059669 35%, #047857 75%, #064e3b 100%);
+  border: 1.5px solid rgba(226, 232, 240, 0.55);
+}
+.box-slytherin .gift-body-3d,
+.theme-potter .box-ruby .gift-body-3d {
+  background: linear-gradient(135deg, #047857 0%, #064e3b 55%, #022c22 100%);
+  border: 1.5px solid rgba(226, 232, 240, 0.4);
+  box-shadow: 0 16px 36px rgba(6, 78, 59, 0.55);
+}
+.box-slytherin .gift-ribbon-bow,
+.box-slytherin .gift-ribbon-cross,
+.theme-potter .box-ruby .gift-ribbon-bow,
+.theme-potter .box-ruby .gift-ribbon-cross {
+  background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 35%, #cbd5e1 70%, #94a3b8 100%);
+  box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.85);
+}
+.box-slytherin .crest-slytherin,
+.theme-potter .box-ruby .house-crest-badge {
+  background: radial-gradient(circle at 35% 30%, #ffffff, #94a3b8);
+  border: 2px solid #e2e8f0;
+  color: #064e3b;
+}
+.box-slytherin.box-unwrapped .gift-lid-3d,
+.theme-potter .box-ruby.box-unwrapped .gift-lid-3d {
   transform: translateY(-55px) rotate(20deg) scale(0.92);
 }
 
-/* Box 3: Emerald & Diamond Cyan */
-.box-emerald .gift-lid-3d { background: linear-gradient(135deg, #34d399, #059669); }
-.box-emerald .gift-body-3d { background: linear-gradient(135deg, #047857, #022c22); }
-.box-emerald .gift-ribbon-bow,
-.box-emerald .gift-ribbon-cross { background: linear-gradient(135deg, #a7f3d0, #ffd166); }
-.box-emerald.box-unwrapped .gift-lid-3d {
+/* 3. HUFFLEPUFF HOUSE BOX (Canary Gold & Velvet Obsidian Black) */
+.box-hufflepuff .gift-lid-3d,
+.theme-potter .box-emerald .gift-lid-3d {
+  background: linear-gradient(135deg, #fde047 0%, #eab308 40%, #ca8a04 80%, #a16207 100%);
+  border: 1.5px solid rgba(253, 224, 71, 0.7);
+}
+.box-hufflepuff .gift-body-3d,
+.theme-potter .box-emerald .gift-body-3d {
+  background: linear-gradient(135deg, #eab308 0%, #ca8a04 55%, #713f12 100%);
+  border: 1.5px solid rgba(253, 224, 71, 0.45);
+  box-shadow: 0 16px 36px rgba(202, 138, 4, 0.5);
+}
+.box-hufflepuff .gift-ribbon-bow,
+.box-hufflepuff .gift-ribbon-cross,
+.theme-potter .box-emerald .gift-ribbon-bow,
+.theme-potter .box-emerald .gift-ribbon-cross {
+  background: linear-gradient(135deg, #3f3f46 0%, #27272a 35%, #18181b 70%, #09090b 100%);
+  border: 1px solid rgba(250, 204, 21, 0.6);
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.85);
+}
+.box-hufflepuff .crest-hufflepuff,
+.theme-potter .box-emerald .house-crest-badge {
+  background: radial-gradient(circle at 35% 30%, #fef08a, #ca8a04);
+  border: 2px solid #18181b;
+  color: #18181b;
+}
+.box-hufflepuff.box-unwrapped .gift-lid-3d,
+.theme-potter .box-emerald.box-unwrapped .gift-lid-3d {
   transform: translateY(-60px) rotate(-15deg);
 }
+
+/* Fallback/Festive Theme Box Styles */
+.theme-festive .box-amethyst .gift-lid-3d { background: linear-gradient(135deg, #a855f7, #7e22ce); }
+.theme-festive .box-amethyst .gift-body-3d { background: linear-gradient(135deg, #7e22ce, #3b0764); }
+.theme-festive .box-amethyst .gift-ribbon-bow,
+.theme-festive .box-amethyst .gift-ribbon-cross { background: var(--gold-gradient); }
+.theme-festive .box-amethyst.box-unwrapped .gift-lid-3d { transform: rotate(-65deg) translate(-35px, -45px); }
+
+.theme-festive .box-ruby .gift-lid-3d { background: linear-gradient(135deg, #fb7185, #e11d48); }
+.theme-festive .box-ruby .gift-body-3d { background: linear-gradient(135deg, #be123c, #4c0519); }
+.theme-festive .box-ruby .gift-ribbon-bow,
+.theme-festive .box-ruby .gift-ribbon-cross { background: linear-gradient(135deg, #ffe4e6, #f43f5e); }
+.theme-festive .box-ruby.box-unwrapped .gift-lid-3d { transform: translateY(-55px) rotate(20deg) scale(0.92); }
+
+.theme-festive .box-emerald .gift-lid-3d { background: linear-gradient(135deg, #34d399, #059669); }
+.theme-festive .box-emerald .gift-body-3d { background: linear-gradient(135deg, #047857, #022c22); }
+.theme-festive .box-emerald .gift-ribbon-bow,
+.theme-festive .box-emerald .gift-ribbon-cross { background: linear-gradient(135deg, #a7f3d0, #ffd166); }
+.theme-festive .box-emerald.box-unwrapped .gift-lid-3d { transform: translateY(-60px) rotate(-15deg); }
 
 /* Pop Revealed Surprise Cards */
 .gift-pop-card {
@@ -1466,6 +1678,7 @@ html, body {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.35s ease;
+  overflow: hidden;
 }
 
 .glass-modal-overlay.overlay-open {
@@ -1476,13 +1689,19 @@ html, body {
 .glass-modal-window {
   width: 100%;
   max-width: 540px;
+  max-height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
   background: #111326;
   border: 1px solid var(--glass-border);
   border-radius: 28px;
-  padding: 34px;
-  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.75);
+  padding: 0;
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.85), 0 0 35px rgba(255, 209, 102, 0.08);
   transform: scale(0.93) translateY(20px);
   transition: transform 0.35s var(--ease-cinematic);
+  margin: auto;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .glass-modal-overlay.overlay-open .glass-modal-window {
@@ -1493,7 +1712,9 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 24px;
+  padding: 22px 28px 16px 28px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
 }
 
 .modal-headline {
@@ -1511,6 +1732,35 @@ html, body {
   color: var(--text-muted);
   font-size: 1.6rem;
   cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+.modal-close-cross:hover {
+  color: #fff;
+  transform: scale(1.15);
+}
+
+.modal-body-scroll {
+  padding: 20px 28px;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  flex: 1 1 auto;
+  max-height: calc(85vh - 145px);
+}
+
+/* Custom sleek scrollbar for modal-body-scroll */
+.modal-body-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-body-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 4px;
+}
+.modal-body-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 209, 102, 0.35);
+  border-radius: 4px;
+}
+.modal-body-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-glow);
 }
 
 .input-block {
@@ -1548,12 +1798,64 @@ html, body {
   resize: vertical;
 }
 
+.input-counter {
+  font-size: 0.74rem;
+  color: #94a3b8;
+  letter-spacing: 0.3px;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.input-counter.limit-near {
+  color: #facc15;
+}
+
+.input-counter.limit-reached {
+  color: #f87171;
+  font-weight: 700;
+}
+
+.locked-mode-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  background: rgba(255, 209, 102, 0.12);
+  border: 1px solid rgba(255, 209, 102, 0.35);
+  border-radius: 9999px;
+  color: #ffd166;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+
+.input-subhint {
+  font-size: 0.76rem;
+  color: #94a3b8;
+  margin-top: 6px;
+  letter-spacing: 0.3px;
+  font-weight: 400;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: color 0.2s ease;
+}
+
+.input-subhint.warn {
+  color: #f87171;
+  font-weight: 600;
+}
+
 .modal-bottom-actions {
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-end;
-  gap: 12px;
-  margin-top: 25px;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 28px 20px 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(17, 19, 38, 0.98);
+  flex-shrink: 0;
 }
 
 /* Floating Toast */
@@ -1716,6 +2018,87 @@ body.theme-festive .btn-owl-badge {
   display: none !important;
 }
 
+/* Hide festive fairy lights when Potter theme is active */
+body.theme-potter .lights-system-container {
+  display: none !important;
+}
+
+/* Potter Floating Magic Lanterns (replace festive lights) */
+.potter-floating-lanterns {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 15;
+  display: none;
+}
+
+body.theme-potter .potter-floating-lanterns {
+  display: block;
+}
+
+.magic-lantern {
+  position: absolute;
+  width: 17px;
+  height: 25px;
+  border-radius: 4px 4px 50% 50%;
+  background: radial-gradient(circle at 50% 30%, rgba(255, 209, 102, 0.95), rgba(234, 179, 8, 0.7) 60%, rgba(120, 53, 15, 0.9));
+  box-shadow: 0 0 10px 3px rgba(255, 209, 102, 0.4), 0 0 24px 6px rgba(255, 209, 102, 0.15);
+  animation: lanternFloat 8s infinite ease-in-out alternate;
+}
+
+.magic-lantern::before {
+  content: '';
+  position: absolute;
+  top: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 9px;
+  height: 5px;
+  background: #78350f;
+  border-radius: 2px 2px 0 0;
+}
+
+.magic-lantern::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1.5px;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.magic-lantern.lantern-1 { top: 15%; left: 5%; animation-delay: 0s; animation-duration: 9s; }
+.magic-lantern.lantern-2 { top: 25%; right: 8%; animation-delay: -2s; animation-duration: 7s; }
+.magic-lantern.lantern-3 { top: 45%; left: 3%; animation-delay: -4s; animation-duration: 11s; }
+.magic-lantern.lantern-4 { top: 60%; right: 4%; animation-delay: -1s; animation-duration: 8s; }
+.magic-lantern.lantern-5 { top: 35%; left: 92%; animation-delay: -3s; animation-duration: 10s; }
+.magic-lantern.lantern-6 { top: 75%; left: 6%; animation-delay: -5s; animation-duration: 9s; }
+.magic-lantern.lantern-7 { top: 10%; right: 15%; animation-delay: -6s; animation-duration: 12s; }
+.magic-lantern.lantern-8 { top: 55%; right: 2%; animation-delay: -7s; animation-duration: 8s; }
+
+.magic-lantern.lantern-amber {
+  background: radial-gradient(circle at 50% 30%, rgba(251, 191, 36, 0.95), rgba(217, 119, 6, 0.7) 60%, rgba(120, 53, 15, 0.9));
+  box-shadow: 0 0 10px 3px rgba(251, 191, 36, 0.4), 0 0 24px 6px rgba(251, 191, 36, 0.15);
+}
+
+.magic-lantern.lantern-warm {
+  background: radial-gradient(circle at 50% 30%, rgba(253, 224, 71, 0.95), rgba(234, 179, 8, 0.7) 60%, rgba(146, 64, 14, 0.9));
+  box-shadow: 0 0 10px 3px rgba(253, 224, 71, 0.35), 0 0 24px 6px rgba(253, 224, 71, 0.12);
+}
+
+@keyframes lanternFloat {
+  0% { transform: translateY(0px) translateX(0px) rotate(-3deg); }
+  25% { transform: translateY(-12px) translateX(5px) rotate(2deg); }
+  50% { transform: translateY(-6px) translateX(-4px) rotate(-1deg); }
+  75% { transform: translateY(-18px) translateX(3px) rotate(3deg); }
+  100% { transform: translateY(-8px) translateX(-6px) rotate(-2deg); }
+}
+
 .btn-owl-badge {
   display: inline-flex;
   align-items: center;
@@ -1761,114 +2144,157 @@ body.theme-potter .potter-backdrop-system {
 /* 1. Photorealistic High-Definition Hogwarts Castle Over Lake */
 .potter-castle-photo {
   position: absolute;
-  inset: -4%;
-  width: 108%;
-  height: 108%;
+  inset: -3%;
+  width: 106%;
+  height: 106%;
   background: 
     linear-gradient(180deg, 
-      rgba(4, 6, 18, 0.48) 0%, 
-      rgba(5, 7, 20, 0.2) 32%, 
-      rgba(4, 6, 18, 0.45) 62%, 
-      rgba(3, 4, 14, 0.82) 84%, 
-      rgba(2, 3, 10, 0.98) 100%),
-    url('hogwarts_castle.jpg') center 36% / cover no-repeat;
-  filter: saturate(1.22) contrast(1.15) brightness(0.96);
-  animation: realisticCastleBreath 26s infinite alternate ease-in-out;
-  transform-origin: center center;
+      rgba(4, 6, 20, 0.52) 0%, 
+      rgba(5, 7, 22, 0.22) 28%, 
+      rgba(4, 6, 18, 0.38) 55%, 
+      rgba(3, 4, 14, 0.75) 78%, 
+      rgba(2, 3, 10, 0.95) 100%),
+    url('hogwarts_castle.jpg') center 42% / cover no-repeat;
+  filter: saturate(1.18) contrast(1.12) brightness(0.98);
+  animation: realisticCastleBreath 32s infinite alternate ease-in-out;
+  transform-origin: 50% 45%;
 }
 
 @keyframes realisticCastleBreath {
   0% { transform: scale(1) translate(0, 0); }
-  50% { transform: scale(1.03) translate(-8px, -4px); }
-  100% { transform: scale(1.015) translate(6px, -2px); }
+  50% { transform: scale(1.025) translate(-6px, -3px); }
+  100% { transform: scale(1.012) translate(5px, -2px); }
 }
 
-/* 2. Drifting Lake Mist Layer */
-.potter-mist-layer {
+/* 2. Volumetric Moonlight Shaft */
+.potter-sky-moonlight {
   position: absolute;
-  bottom: 45px;
-  left: -30%;
-  width: 160%;
-  height: 150px;
-  background: radial-gradient(ellipse at 50% 100%, rgba(147, 197, 253, 0.16) 0%, rgba(192, 132, 252, 0.08) 45%, transparent 75%);
-  filter: blur(16px);
-  animation: mistRoll 22s infinite linear alternate;
+  top: 0;
+  right: 5%;
+  width: 55vw;
+  height: 85vh;
+  background: radial-gradient(ellipse 60% 80% at 80% 12%, rgba(254, 240, 138, 0.18) 0%, rgba(147, 197, 253, 0.08) 40%, transparent 75%);
+  filter: blur(28px);
   pointer-events: none;
+  animation: moonlightShaftDrift 16s infinite alternate ease-in-out;
 }
 
-@keyframes mistRoll {
-  0% { transform: translateX(0); opacity: 0.5; }
-  100% { transform: translateX(20%); opacity: 0.85; }
+@keyframes moonlightShaftDrift {
+  0% { opacity: 0.65; transform: scaleY(0.98); }
+  100% { opacity: 0.95; transform: scaleY(1.04); }
 }
 
-/* Radiant Full Moon */
+/* 3. Textured Luminous Full Moon (Medium Scale & Refined Glow) */
 .potter-full-moon {
   position: absolute;
-  top: 70px;
+  top: 65px;
   right: 12%;
-  width: 130px;
-  height: 130px;
+  width: 90px;
+  height: 90px;
   border-radius: 50%;
-  background: radial-gradient(circle at 40% 40%, #ffffff 0%, #fffbe6 35%, #fde047 80%, #ca8a04 100%);
+  background: radial-gradient(circle at 38% 38%, #ffffff 0%, #fffdf0 32%, #fef08a 70%, #ca8a04 100%);
   box-shadow: 
-    0 0 50px 15px rgba(254, 240, 138, 0.45),
-    0 0 110px 40px rgba(234, 179, 8, 0.25);
-  animation: moonGlowPulse 8s infinite alternate ease-in-out;
+    0 0 16px 5px rgba(255, 255, 255, 0.45),
+    0 0 42px 14px rgba(254, 240, 138, 0.25);
+  animation: moonGlowPulse 10s infinite alternate ease-in-out;
+  overflow: hidden;
+}
+
+.moon-maria {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(161, 98, 7, 0.16);
+  filter: blur(4px);
+}
+.moon-maria.maria-1 { width: 44px; height: 38px; top: 22px; left: 38px; }
+.moon-maria.maria-2 { width: 52px; height: 46px; top: 48px; left: 54px; }
+.moon-maria.maria-3 { width: 34px; height: 28px; top: 72px; left: 24px; }
+
+.moon-radiance-halo {
+  position: absolute;
+  inset: -20px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+  pointer-events: none;
 }
 
 @keyframes moonGlowPulse {
   0% { transform: scale(1); filter: brightness(1); }
-  100% { transform: scale(1.04); filter: brightness(1.15); }
+  100% { transform: scale(1.03); filter: brightness(1.12); }
 }
 
-/* Hogwarts Castle Silhouette Spires */
-.potter-castle-silhouette {
+/* 4. Layered Rolling Mist across Black Lake */
+.potter-mist-layer {
   position: absolute;
-  bottom: 50px;
-  left: 0;
-  width: 100%;
-  height: 280px;
   pointer-events: none;
+  filter: blur(20px);
 }
 
-.castle-svg {
-  width: 100%;
-  height: 100%;
-  display: block;
+.potter-mist-layer.mist-back {
+  bottom: 75px;
+  left: -20%;
+  width: 150%;
+  height: 140px;
+  background: radial-gradient(ellipse at 50% 100%, rgba(147, 197, 253, 0.14) 0%, rgba(192, 132, 252, 0.06) 50%, transparent 75%);
+  animation: mistRollBack 28s infinite linear alternate;
 }
 
-.castle-windows rect {
-  animation: castleWindowFlicker 3s infinite alternate ease-in-out;
-}
-.castle-windows rect:nth-child(2n) { animation-delay: 0.6s; animation-duration: 4.2s; }
-.castle-windows rect:nth-child(3n) { animation-delay: 1.2s; animation-duration: 2.8s; }
-
-@keyframes castleWindowFlicker {
-  0% { opacity: 0.75; filter: drop-shadow(0 0 3px #ffd166); }
-  50% { opacity: 1; filter: drop-shadow(0 0 9px #ffd166); }
-  100% { opacity: 0.85; filter: drop-shadow(0 0 5px #f59e0b); }
+.potter-mist-layer.mist-front {
+  bottom: 25px;
+  left: -10%;
+  width: 140%;
+  height: 110px;
+  background: radial-gradient(ellipse at 45% 100%, rgba(254, 240, 138, 0.12) 0%, rgba(147, 197, 253, 0.1) 45%, transparent 75%);
+  animation: mistRollFront 19s infinite linear alternate;
 }
 
-/* The Black Lake with Shimmering Waves */
+@keyframes mistRollBack {
+  0% { transform: translateX(0); opacity: 0.55; }
+  100% { transform: translateX(16%); opacity: 0.85; }
+}
+
+@keyframes mistRollFront {
+  0% { transform: translateX(8%); opacity: 0.7; }
+  100% { transform: translateX(-8%); opacity: 0.45; }
+}
+
+/* 5. The Glassy Black Lake with Shimmering Waves & Specular Caustics */
 .potter-black-lake {
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 80px;
-  background: linear-gradient(to bottom, rgba(10, 14, 30, 0.9) 0%, rgba(5, 7, 17, 0.98) 100%);
-  border-top: 1px solid rgba(255, 209, 102, 0.15);
+  height: 95px;
+  background: linear-gradient(to bottom, rgba(8, 11, 24, 0.88) 0%, rgba(3, 5, 14, 0.98) 100%);
+  border-top: 1px solid rgba(255, 209, 102, 0.22);
+  box-shadow: 0 -12px 35px rgba(254, 240, 138, 0.08);
   overflow: hidden;
 }
 
-.lake-reflection-glow {
+.lake-water-surface {
   position: absolute;
   top: 0;
-  right: 13%;
-  width: 110px;
+  left: 0;
+  width: 100%;
   height: 100%;
-  background: radial-gradient(ellipse at 50% 0%, rgba(254, 240, 138, 0.35) 0%, transparent 80%);
-  filter: blur(8px);
+  background: radial-gradient(ellipse at 50% 0%, rgba(254, 240, 138, 0.12) 0%, transparent 70%);
+}
+
+.lake-moon-reflection {
+  position: absolute;
+  top: 0;
+  right: 12%;
+  width: 120px;
+  height: 100%;
+  background: linear-gradient(180deg, rgba(254, 240, 138, 0.45) 0%, rgba(253, 224, 71, 0.25) 30%, rgba(234, 179, 8, 0.1) 65%, transparent 100%);
+  filter: blur(7px);
+  animation: moonReflectionTremor 4.5s infinite alternate ease-in-out;
+}
+
+@keyframes moonReflectionTremor {
+  0% { transform: scaleX(1) skewX(0deg); opacity: 0.75; }
+  50% { transform: scaleX(1.15) skewX(2deg); opacity: 0.95; }
+  100% { transform: scaleX(0.92) skewX(-2deg); opacity: 0.7; }
 }
 
 .lake-ripple {
@@ -1876,11 +2302,18 @@ body.theme-potter .potter-backdrop-system {
   left: 0;
   width: 200%;
   height: 2px;
-  background: linear-gradient(90deg, transparent 0%, rgba(254, 240, 138, 0.28) 25%, transparent 50%, rgba(254, 240, 138, 0.25) 75%, transparent 100%);
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(254, 240, 138, 0.4) 20%, 
+    transparent 40%, 
+    rgba(147, 197, 253, 0.35) 60%, 
+    rgba(254, 240, 138, 0.35) 80%, 
+    transparent 100%);
 }
-.lake-ripple.ripple-1 { top: 15px; animation: lakeWaterWave 6s infinite linear; }
-.lake-ripple.ripple-2 { top: 38px; opacity: 0.6; animation: lakeWaterWave 9s infinite linear reverse; }
-.lake-ripple.ripple-3 { top: 60px; opacity: 0.4; animation: lakeWaterWave 12s infinite linear; }
+.lake-ripple.ripple-1 { top: 12px; height: 2px; animation: lakeWaterWave 7s infinite linear; }
+.lake-ripple.ripple-2 { top: 32px; height: 2.5px; opacity: 0.75; animation: lakeWaterWave 10s infinite linear reverse; }
+.lake-ripple.ripple-3 { top: 54px; height: 2px; opacity: 0.55; animation: lakeWaterWave 13s infinite linear; }
+.lake-ripple.ripple-4 { top: 76px; height: 1.5px; opacity: 0.35; animation: lakeWaterWave 16s infinite linear reverse; }
 
 @keyframes lakeWaterWave {
   0% { transform: translateX(0); }
@@ -2347,15 +2780,27 @@ body.theme-potter .potter-backdrop-system {
   }
 
   /* Modals on Mobile */
+  .glass-modal-overlay {
+    align-items: center;
+    padding: 8px;
+  }
   .glass-modal-window {
-    width: 95vw;
-    max-width: 420px;
-    max-height: 90vh;
-    padding: 16px 12px;
-    border-radius: 18px;
+    width: 96vw;
+    max-width: 440px;
+    max-height: calc(100vh - 16px);
+    border-radius: 20px;
+    padding: 0;
+    margin: auto;
+  }
+  .modal-title-bar {
+    padding: 14px 18px 10px 18px;
   }
   .modal-headline {
-    font-size: 1.25rem;
+    font-size: 1.22rem;
+  }
+  .modal-body-scroll {
+    padding: 12px 18px;
+    max-height: calc(85vh - 120px);
   }
   .input-block {
     margin-bottom: 12px;
@@ -2367,6 +2812,19 @@ body.theme-potter .potter-backdrop-system {
   .input-field, .input-area {
     padding: 8px 12px;
     font-size: 0.85rem;
+  }
+  .modal-bottom-actions {
+    padding: 10px 16px 14px 16px;
+    gap: 8px;
+    justify-content: center;
+  }
+  .modal-bottom-actions .btn {
+    padding: 8px 14px;
+    font-size: 0.82rem;
+  }
+  .potter-floating-lanterns .magic-lantern {
+    width: 18px;
+    height: 26px;
   }
 }
 

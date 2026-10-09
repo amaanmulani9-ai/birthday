@@ -6,13 +6,18 @@
   <title>Happy Birthday! ✨ A Magical 3D Celebration</title>
   <meta name="description" content="Personalized magical birthday experience with interactive 3D cake, dynamic balloons, confetti fireworks and heartfelt wishes.">
   
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' blob: data: https://fonts.googleapis.com https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; object-src 'none'; base-uri 'self';">
+  
   <!-- Premium Modern Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
   
   <!-- Modern 3D Progressive Stylesheet -->
-  <link rel="stylesheet" href="stylesheet.css?v=7.6">
+  <link rel="stylesheet" href="stylesheet.css?v=9.6">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body>
@@ -32,6 +37,8 @@
     <source src="hbd.mp3" type="audio/mpeg">
     Your browser does not support audio element.
   </audio>
+  <audio id="hp-birthday-song" loop preload="none"></audio>
+  <audio id="custom-song" loop preload="auto"></audio>
 
   <!-- Frosted Glass Navigation Header -->
   <header class="app-header">
@@ -49,8 +56,33 @@
           <div class="meter-bar"></div>
           <div class="meter-bar"></div>
         </div>
-        <span>Play Music</span>
+        <span id="music-btn-label">Play Music</span>
+        <span class="music-dropdown-arrow" id="music-dropdown-arrow">▾</span>
       </button>
+      <!-- Music Selection Dropdown -->
+      <div class="music-dropdown-panel" id="music-dropdown-panel">
+        <div class="music-dropdown-title">🎵 Choose Music</div>
+        <label class="music-option active" id="music-opt-default" for="radio-music-default">
+          <input type="radio" id="radio-music-default" name="music-source" value="default" aria-label="Default Happy Birthday song" checked style="display:none">
+          <span class="music-opt-icon">🎂</span>
+          <span>Happy Birthday (Default)</span>
+        </label>
+        <label class="music-option" id="music-opt-hp" for="radio-music-hp">
+          <input type="radio" id="radio-music-hp" name="music-source" value="hp" aria-label="Hedwig's Theme (Harry Potter)" style="display:none">
+          <span class="music-opt-icon">⚡</span>
+          <span>Hedwig's Theme (Harry Potter)</span>
+        </label>
+        <label class="music-option" id="music-opt-custom" for="radio-music-custom">
+          <input type="radio" id="radio-music-custom" name="music-source" value="custom" aria-label="Upload custom song" style="display:none">
+          <span class="music-opt-icon">➕</span>
+          <span>Upload Your Song (1 Only)</span>
+        </label>
+        <label for="custom-song-upload" style="display:none">Upload Custom Audio File</label>
+        <input type="file" id="custom-song-upload" accept="audio/mpeg,audio/mp3,audio/wav,audio/ogg,audio/aac,audio/m4a" aria-label="Upload custom audio file" style="display:none">
+        <div class="music-custom-status" id="music-custom-status" style="display:none">
+          🎵 <span id="custom-song-name">No file selected</span>
+        </div>
+      </div>
 
       <!-- 3D Background Theme Switcher -->
       <button class="btn btn-gold btn-theme-toggle" id="btn-theme-toggle" title="Switch 3D Background Animation Theme">
@@ -113,6 +145,18 @@
       <div class="v-bulb-item v-pos-5"><div class="fairy-socket socket-brass"></div><div class="fairy-glass shape-teardrop bulb-violet"></div></div>
       <div class="v-bulb-item v-pos-6"><div class="fairy-socket"></div><div class="fairy-glass shape-globe bulb-gold"></div></div>
     </div>
+  </div>
+
+  <!-- Potter Floating Magic Lanterns (visible only in Harry Potter theme) -->
+  <div class="potter-floating-lanterns" id="potter-floating-lanterns">
+    <div class="magic-lantern lantern-1"></div>
+    <div class="magic-lantern lantern-2 lantern-amber"></div>
+    <div class="magic-lantern lantern-3 lantern-warm"></div>
+    <div class="magic-lantern lantern-4"></div>
+    <div class="magic-lantern lantern-5 lantern-amber"></div>
+    <div class="magic-lantern lantern-6 lantern-warm"></div>
+    <div class="magic-lantern lantern-7"></div>
+    <div class="magic-lantern lantern-8 lantern-amber"></div>
   </div>
 
   <!-- Breadcrumb Stepper Navigation -->
@@ -239,25 +283,37 @@
       <p style="color: var(--text-muted); font-size: 0.95rem;">Click on each box to reveal its unique surprise!</p>
 
       <div class="gift-boxes-trio">
-        <!-- Box 1: Royal Amethyst (Blessing) -->
+        <!-- Box 1: Gryffindor House Box (Scarlet & Gold Blessing) -->
         <div class="gift-box-item" id="gift-item-1">
-          <div class="gift-box-title">✨ Blessing Box</div>
-          <div class="gift-3d-box box-amethyst" id="gift-box-1" title="Click to open Blessing Box!">
-            <div class="gift-lid-3d"><div class="gift-ribbon-bow"></div></div>
-            <div class="gift-body-3d"><div class="gift-ribbon-cross"></div></div>
+          <div class="gift-box-title">🦁 Gryffindor Blessing Box</div>
+          <div class="gift-3d-box box-gryffindor box-amethyst" id="gift-box-1" title="Click to open Gryffindor Blessing Box!">
+            <div class="gift-lid-3d">
+              <div class="gift-ribbon-bow"></div>
+              <div class="house-crest-badge crest-gryffindor" title="Gryffindor Lion Crest">🦁</div>
+            </div>
+            <div class="gift-body-3d">
+              <div class="gift-ribbon-cross"></div>
+              <div class="gift-house-symbol">🦁</div>
+            </div>
           </div>
           <div class="gift-pop-card" id="gift-pop-card-1">
-            <p style="font-size: 1.1rem; font-weight: 700; color: #ffd166; margin-bottom: 4px;">🎉 Endless Joy & Health</p>
-            <p style="font-size: 0.88rem; color: #e2e8f0; line-height: 1.5;">May every day of your new year be filled with pure peace, radiant health, and unforgettable smiles! 🌟</p>
+            <p style="font-size: 1.1rem; font-weight: 700; color: #ffd166; margin-bottom: 4px;">🎉 Endless Courage & Joy</p>
+            <p style="font-size: 0.88rem; color: #e2e8f0; line-height: 1.5;">May the brave heart of Gryffindor guide your year with pure peace, radiant health, and glorious achievements! 🌟</p>
           </div>
         </div>
 
-        <!-- Box 2: Ruby Crimson (Memory Polaroid) -->
+        <!-- Box 2: Slytherin House Box (Emerald & Silver Memory Box) -->
         <div class="gift-box-item" id="gift-item-2">
-          <div class="gift-box-title">📸 Memory Box</div>
-          <div class="gift-3d-box box-ruby" id="gift-box-2" title="Click to open Memory Box!">
-            <div class="gift-lid-3d"><div class="gift-ribbon-bow"></div></div>
-            <div class="gift-body-3d"><div class="gift-ribbon-cross"></div></div>
+          <div class="gift-box-title">🐍 Slytherin Memory Box</div>
+          <div class="gift-3d-box box-slytherin box-ruby" id="gift-box-2" title="Click to open Slytherin Memory Box!">
+            <div class="gift-lid-3d">
+              <div class="gift-ribbon-bow"></div>
+              <div class="house-crest-badge crest-slytherin" title="Slytherin Serpent Crest">🐍</div>
+            </div>
+            <div class="gift-body-3d">
+              <div class="gift-ribbon-cross"></div>
+              <div class="gift-house-symbol">🐍</div>
+            </div>
           </div>
           <div class="gift-pop-card" id="gift-pop-card-2" style="background: transparent; border: none; padding: 0;">
             <div class="polaroid-stack-container" id="polaroid-stack-container" title="Click to flip to next photo!">
@@ -270,16 +326,22 @@
           </div>
         </div>
 
-        <!-- Box 3: Emerald & Gold (Secret Wish) -->
+        <!-- Box 3: Hufflepuff House Box (Canary Gold & Obsidian Secret Wish) -->
         <div class="gift-box-item" id="gift-item-3">
-          <div class="gift-box-title">💌 Secret Wish Box</div>
-          <div class="gift-3d-box box-emerald" id="gift-box-3" title="Click to open Secret Wish!">
-            <div class="gift-lid-3d"><div class="gift-ribbon-bow"></div></div>
-            <div class="gift-body-3d"><div class="gift-ribbon-cross"></div></div>
+          <div class="gift-box-title">🦡 Hufflepuff Secret Wish</div>
+          <div class="gift-3d-box box-hufflepuff box-emerald" id="gift-box-3" title="Click to open Hufflepuff Secret Wish!">
+            <div class="gift-lid-3d">
+              <div class="gift-ribbon-bow"></div>
+              <div class="house-crest-badge crest-hufflepuff" title="Hufflepuff Badger Crest">🦡</div>
+            </div>
+            <div class="gift-body-3d">
+              <div class="gift-ribbon-cross"></div>
+              <div class="gift-house-symbol">🦡</div>
+            </div>
           </div>
           <div class="gift-pop-card" id="gift-pop-card-3">
-            <p style="font-size: 1.1rem; font-weight: 700; color: #06d6a0; margin-bottom: 4px;">🌟 A Golden Destiny</p>
-            <p style="font-size: 0.88rem; color: #e2e8f0; line-height: 1.5;">Remember your greatness! May every path you take lead to triumph, prosperity, and dreams achieved! 🌈💫</p>
+            <p style="font-size: 1.1rem; font-weight: 700; color: #fde047; margin-bottom: 4px;">🌟 Loyalty & Golden Destiny</p>
+            <p style="font-size: 0.88rem; color: #e2e8f0; line-height: 1.5;">True-hearted and patient, may your loyal spirit harvest abundant happiness, prosperity, and sweetest dreams! 🌈💫</p>
           </div>
         </div>
       </div>
@@ -339,52 +401,22 @@
   <!-- Hogwarts Castle & Black Lake Ambient Layer (Active in Harry Potter Theme) -->
   <div class="potter-backdrop-system" id="potter-backdrop-system" aria-hidden="true">
     <div class="potter-castle-photo"></div>
-    <div class="potter-mist-layer"></div>
-    <div class="potter-full-moon"></div>
-    <div class="potter-castle-silhouette">
-      <!-- Detailed SVG of Hogwarts Castle Silhouette & Glowing Amber Windows -->
-      <svg class="castle-svg" viewBox="0 0 1440 380" preserveAspectRatio="none">
-        <defs>
-          <linearGradient id="castleGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stop-color="#141830" />
-            <stop offset="60%" stop-color="#0a0d1c" />
-            <stop offset="100%" stop-color="#050711" />
-          </linearGradient>
-          <filter id="windowGlow">
-            <feGaussianBlur stdDeviation="3" result="blur"/>
-            <feMerge>
-              <feMergeNode in="blur"/>
-              <feMergeNode in="SourceGraphic"/>
-            </feMerge>
-          </filter>
-        </defs>
-        <!-- Rocky Crags & Hogwarts Spires Silhouette -->
-        <path d="M 0,380 L 0,260 Q 90,240 180,265 L 180,180 L 195,140 L 210,180 L 210,270 L 270,270 L 270,120 L 285,75 L 300,120 L 300,270 L 340,270 L 350,210 L 390,210 L 400,270 L 440,270 L 440,160 L 455,100 L 470,160 L 470,270 L 520,270 L 530,190 L 550,150 L 570,190 L 580,270 L 640,270 L 640,90 L 655,40 L 670,90 L 670,270 L 730,270 L 740,220 L 770,220 L 780,270 L 830,270 L 830,140 L 845,95 L 860,140 L 860,270 L 910,270 L 920,180 L 950,180 L 960,270 L 1020,270 L 1020,110 L 1035,60 L 1050,110 L 1050,270 L 1100,270 L 1110,200 L 1140,200 L 1150,270 L 1220,270 L 1220,150 L 1235,100 L 1250,150 L 1250,270 L 1320,270 Q 1380,250 1440,270 L 1440,380 Z" fill="url(#castleGrad)"/>
-        <!-- Great Hall Pitch Roof & Viaduct Arches -->
-        <path d="M 580,270 L 600,230 L 620,270 Z M 780,270 L 800,240 L 820,270 Z" fill="#0c0f20"/>
-        <!-- Illuminated Warm Golden Gothic Windows -->
-        <g class="castle-windows" filter="url(#windowGlow)">
-          <rect x="280" y="140" width="8" height="18" rx="4" fill="#ffd166" />
-          <rect x="280" y="170" width="8" height="18" rx="4" fill="#fbbf24" />
-          <rect x="280" y="200" width="8" height="18" rx="4" fill="#ffd166" />
-          <rect x="450" y="180" width="10" height="22" rx="5" fill="#f59e0b" />
-          <rect x="450" y="215" width="10" height="22" rx="5" fill="#ffd166" />
-          <rect x="650" y="110" width="10" height="24" rx="5" fill="#ffd166" />
-          <rect x="650" y="145" width="10" height="24" rx="5" fill="#f59e0b" />
-          <rect x="650" y="180" width="10" height="24" rx="5" fill="#ffd166" />
-          <rect x="840" y="160" width="9" height="20" rx="4" fill="#fbbf24" />
-          <rect x="840" y="195" width="9" height="20" rx="4" fill="#ffd166" />
-          <rect x="1030" y="130" width="9" height="20" rx="4" fill="#ffd166" />
-          <rect x="1030" y="165" width="9" height="20" rx="4" fill="#f59e0b" />
-        </g>
-      </svg>
+    <div class="potter-sky-moonlight"></div>
+    <div class="potter-full-moon">
+      <div class="moon-maria maria-1"></div>
+      <div class="moon-maria maria-2"></div>
+      <div class="moon-maria maria-3"></div>
+      <div class="moon-radiance-halo"></div>
     </div>
-    <!-- The Black Lake with Shimmering Waves & Water Reflections -->
+    <div class="potter-mist-layer mist-back"></div>
+    <div class="potter-mist-layer mist-front"></div>
     <div class="potter-black-lake">
-      <div class="lake-reflection-glow"></div>
+      <div class="lake-water-surface"></div>
+      <div class="lake-moon-reflection"></div>
       <div class="lake-ripple ripple-1"></div>
       <div class="lake-ripple ripple-2"></div>
       <div class="lake-ripple ripple-3"></div>
+      <div class="lake-ripple ripple-4"></div>
     </div>
   </div>
 
@@ -418,69 +450,83 @@
         <button class="modal-close-cross" id="modal-close-btn">&times;</button>
       </div>
 
-      <div class="input-block">
-        <label class="input-label" for="modal-input-name">Birthday Person's Name</label>
-        <input class="input-field" id="modal-input-name" type="text" placeholder="e.g. Amaan, Sarah, Alex, Mom, Bro" autocomplete="off">
-      </div>
-
-      <div class="input-block">
-        <label class="input-label" for="modal-input-date">Birth Date (Optional - calculates age & zodiac)</label>
-        <input class="input-field" id="modal-input-date" type="date">
-      </div>
-
-      <!-- Memory Photo Stack (3 to 5 images) -->
-      <div class="input-block">
-        <label class="input-label">📸 Memory Photo Stack (Select 3 to 5 Images)</label>
-        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">Tap photos to select/deselect for your 3D flipping polaroid deck:</p>
-        <div class="preset-thumbs-row" id="preset-thumbs-row">
-          <!-- 5 preset thumbnail cards injected dynamically -->
+      <div class="modal-body-scroll">
+        <div class="input-block">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+            <label class="input-label" for="modal-input-name" style="margin-bottom: 0;">Birthday Person's Name</label>
+            <span class="input-counter" id="counter-name">0/4 words • 0/30 chars</span>
+          </div>
+          <input class="input-field" id="modal-input-name" type="text" placeholder="e.g. Amaan Asif Mulani" autocomplete="off" maxlength="30">
+          <div class="input-subhint" id="hint-name-limit">⚡ Maximum Word Limit: 4 words (up to 30 letters)</div>
         </div>
-        <div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
-          <label class="btn btn-glass" style="cursor: pointer; font-size: 0.82rem; padding: 7px 14px;">
-            📁 Upload Custom Photos
-            <input type="file" id="modal-photo-upload" accept="image/*" multiple style="display: none;">
-          </label>
-          <button type="button" class="btn btn-glass" id="btn-reset-preset-photos" style="font-size: 0.82rem; padding: 7px 14px;">
-            ↺ Reset to Default 4
-          </button>
-        </div>
-        <div style="margin-top: 10px;">
-          <label class="input-label" for="modal-input-caption" style="font-size: 0.82rem;">Polaroid Caption</label>
-          <input class="input-field" id="modal-input-caption" type="text" placeholder="e.g. Best moments with you ❤️" value="Best moments with you ❤️">
-        </div>
-      </div>
 
-      <!-- 3D Background Theme Option -->
-      <div class="input-block">
-        <label class="input-label">🌌 3D Background Animation Theme</label>
-        <div class="theme-choice-row">
-          <label class="theme-choice-card active" id="theme-card-potter">
-            <input type="radio" name="modal-bg-theme" value="potter" checked style="display: none;">
-            <div class="theme-choice-icon">⚡🧙‍♂️</div>
-            <div>
-              <div class="theme-choice-title">Hogwarts Wizarding World (Default)</div>
-              <div class="theme-choice-desc">Great Hall Floating Candles, Golden Snitch, Flying Letters & Magic Sparks</div>
+        <div class="input-block">
+          <label class="input-label" for="modal-input-date">Birth Date (Optional - calculates age & zodiac)</label>
+          <input class="input-field" id="modal-input-date" type="date">
+        </div>
+
+        <!-- Memory Photo Stack (3 to 5 images) -->
+        <div class="input-block">
+          <label class="input-label">📸 Memory Photo Stack (Select 3 to 5 Images)</label>
+          <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">Tap photos to select/deselect for your 3D flipping polaroid deck:</p>
+          <div class="preset-thumbs-row" id="preset-thumbs-row">
+            <!-- 5 preset thumbnail cards injected dynamically -->
+          </div>
+          <div style="display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap;">
+            <label class="btn btn-glass" for="modal-photo-upload" style="cursor: pointer; font-size: 0.82rem; padding: 7px 14px;">
+              📁 Upload Custom Photos (Safe Images Only)
+              <input type="file" id="modal-photo-upload" accept="image/jpeg,image/png,image/webp,image/gif" multiple aria-label="Upload custom memory photos" style="display: none;">
+            </label>
+            <button type="button" class="btn btn-glass" id="btn-reset-preset-photos" style="font-size: 0.82rem; padding: 7px 14px;">
+              ↺ Reset to Default 4
+            </button>
+          </div>
+          <div style="margin-top: 10px;">
+            <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+              <label class="input-label" for="modal-input-caption" style="font-size: 0.82rem; margin-bottom: 0;">Polaroid Caption</label>
+              <span class="input-counter" id="counter-caption">0/50 chars</span>
             </div>
-          </label>
-          <label class="theme-choice-card" id="theme-card-festive">
-            <input type="radio" name="modal-bg-theme" value="festive" style="display: none;">
-            <div class="theme-choice-icon">🎈🎁</div>
-            <div>
-              <div class="theme-choice-title">Festive 3D Balloons & Confetti</div>
-              <div class="theme-choice-desc">Multi-Directional Balloons, Tumbling Confetti & Floating Gift Boxes</div>
-            </div>
-          </label>
+            <input class="input-field" id="modal-input-caption" type="text" placeholder="e.g. Best moments with you ❤️" value="Best moments with you ❤️" maxlength="50">
+          </div>
         </div>
-      </div>
 
-      <div class="input-block">
-        <label class="input-label" for="modal-input-msg">Custom Wish Message (Optional)</label>
-        <textarea class="input-area" id="modal-input-msg" placeholder="Leave empty to use the classic heartfelt poem, or write your own lines here..."></textarea>
+        <!-- 3D Background Theme Option -->
+        <div class="input-block">
+          <label class="input-label">🌌 3D Background Animation Theme</label>
+          <div class="theme-choice-row">
+            <label class="theme-choice-card active" id="theme-card-potter" for="radio-theme-potter">
+              <input type="radio" id="radio-theme-potter" name="modal-bg-theme" value="potter" aria-label="Hogwarts Wizarding World Theme" checked style="display: none;">
+              <div class="theme-choice-icon">⚡🧙‍♂️</div>
+              <div>
+                <div class="theme-choice-title">Hogwarts Wizarding World (Default)</div>
+                <div class="theme-choice-desc">Great Hall Floating Candles, Golden Snitch, Flying Letters & Magic Sparks</div>
+              </div>
+            </label>
+            <label class="theme-choice-card" id="theme-card-festive" for="radio-theme-festive">
+              <input type="radio" id="radio-theme-festive" name="modal-bg-theme" value="festive" aria-label="Festive 3D Balloons Theme" style="display: none;">
+              <div class="theme-choice-icon">🎈🎁</div>
+              <div>
+                <div class="theme-choice-title">Festive 3D Balloons & Confetti</div>
+                <div class="theme-choice-desc">Multi-Directional Balloons, Tumbling Confetti & Floating Gift Boxes</div>
+              </div>
+            </label>
+          </div>
+        </div>
+
+        <div class="input-block">
+          <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
+            <label class="input-label" for="modal-input-msg" style="margin-bottom: 0;">Custom Wish Message (Optional)</label>
+            <span class="input-counter" id="counter-msg">0/50 words • 0/350 chars</span>
+          </div>
+          <textarea class="input-area" id="modal-input-msg" placeholder="Leave empty to use the classic heartfelt poem, or write your own lines here..." maxlength="350"></textarea>
+          <div class="input-subhint" id="hint-msg-limit">⚡ Word Limit: Maximum 50 words (up to 350 characters)</div>
+        </div>
       </div>
 
       <div class="modal-bottom-actions">
         <button class="btn btn-glass" id="btn-modal-cancel">Cancel</button>
-        <button class="btn btn-primary" id="btn-modal-preview">Preview Now</button>
+        <button class="btn btn-primary" id="btn-modal-save">💾 Save Changes</button>
+        <button class="btn btn-glass" id="btn-modal-preview">👁️ Preview</button>
         <button class="btn btn-gold" id="btn-modal-copy-link" title="Creates a link valid for 24 hours">⏳ Copy 24h Link</button>
         <button class="btn btn-glass" id="btn-modal-whatsapp" style="color: #25d366; border-color: rgba(37,211,102,0.4);" title="Send 24h link on WhatsApp">💬 WhatsApp (24h)</button>
       </div>
@@ -504,6 +550,6 @@
 
   <!-- Modern Interactive Script & 3D WebGL Library -->
   <script src="three.min.js"></script>
-  <script src="app.js?v=7.6"></script>
+  <script src="app.js?v=9.6"></script>
 </body>
 </html>
